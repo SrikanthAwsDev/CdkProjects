@@ -12,17 +12,17 @@ export class S3InfraStack extends cdk.Stack {
 
     this.inboundBucket = new s3.Bucket(this, 'InboundBucket', {
       versioned: true,
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      bucketName:"cdkdemo-ram-datalake-inbound"
     });
 
     this.rawBucket = new s3.Bucket(this, 'RawBucket', {
       versioned: true,
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      bucketName:"cdkdemo-ram-datalake-raw"
     });
 
     this.scriptsBucket = new s3.Bucket(this, 'ScriptsBucket', {
       versioned: true,
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      bucketName:"cdkdemo-ram-scripts"
     });
 
     new cdk.CfnOutput(this, 'InboundBucketName', {
