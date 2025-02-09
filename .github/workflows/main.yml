@@ -1,0 +1,51 @@
+name: Deploy CDK Stacks to AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack-name:
+        description: 'Name of the CDK stack to deploy'
+        required: true
+        type: choice
+        options:
+          - S3InfraStack
+          - IamEventLambdaStack
+
+env:
+  AWS_REGION: eu-west-1
+  CDK_DEFAULT_ACCOUNT: 120569617842
+  CDK_DEFAULT_REGION: eu-west-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Synthesize CDK Stacks
+      run: npx cdk synth
+
+    - name: Deploy Specified CDK Stack
+      run: npx cdk deploy ${{ github.event.inputs.stack-name }} --require-approval never
