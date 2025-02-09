@@ -1,0 +1,15 @@
+{
+    "ProjectA": {
+      "iamUserName": "externalUserA",
+      "inboundFolderPath": "project-a/",
+      "lambdaCodePath": "scripts/lambda-handler.py",
+      "rawBucketFolderPath": "project-a-destination/"
+    },
+    "ProjectB": {
+      "iamUserName": "externalUserB",
+      "inboundFolderPath": "project-b/",
+      "lambdaCodePath": "scripts/lambda-handler-b.py",
+      "rawBucketFolderPath": "project-b-destination/"
+    }
+  }
+  
