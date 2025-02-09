@@ -4,12 +4,6 @@
       "inboundFolderPath": "Watermelon/",
       "lambdaCodePath": "scripts/lambda-handler.py",
       "rawBucketFolderPath": "Watermelon/"
-    },
-    "ProjectB": {
-      "iamUserName": "Flight",
-      "inboundFolderPath": "Flight/",
-      "lambdaCodePath": "scripts/lambda-handler-b.py",
-      "rawBucketFolderPath": "Flight/"
     }
-  }
+}
   
