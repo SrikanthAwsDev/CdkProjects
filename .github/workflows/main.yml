@@ -12,8 +12,8 @@ on:
           - IamEventLambdaStack
 
 env:
-  AWS_REGION: us-east-1
-  CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_REGION: eu-west-1
+  CDK_DEFAULT_ACCOUNT: 120569617842
   CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
 jobs:
@@ -31,8 +31,8 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: arn:aws:iam::120569617842:role/GithubSvcRole
+        aws-region: eu-west-1
 
     - name: Install Node.js
       uses: actions/setup-node@v3
@@ -41,9 +41,6 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
-
-    - name: Bootstrap CDK Environment
-      run: npx cdk bootstrap aws://$CDK_DEFAULT_ACCOUNT/$CDK_DEFAULT_REGION
 
     - name: Synthesize CDK Stacks
       run: npx cdk synth
