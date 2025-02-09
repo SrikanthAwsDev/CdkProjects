@@ -1,15 +1,15 @@
 {
-    "ProjectA": {
-      "iamUserName": "externalUserA",
-      "inboundFolderPath": "project-a/",
+    "Cargo-Watermelon": {
+      "iamUserName": "Watermelon",
+      "inboundFolderPath": "Watermelon/",
       "lambdaCodePath": "scripts/lambda-handler.py",
-      "rawBucketFolderPath": "project-a-destination/"
+      "rawBucketFolderPath": "Watermelon/"
     },
-    "ProjectB": {
-      "iamUserName": "externalUserB",
-      "inboundFolderPath": "project-b/",
+    "BA-Flight": {
+      "iamUserName": "Flight",
+      "inboundFolderPath": "Flight/",
       "lambdaCodePath": "scripts/lambda-handler-b.py",
-      "rawBucketFolderPath": "project-b-destination/"
+      "rawBucketFolderPath": "Flight/"
     }
   }
   

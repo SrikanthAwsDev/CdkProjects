@@ -10,7 +10,6 @@ import * as fs from 'fs';
 interface ProjectConfig {
   iamUserName: string;
   inboundFolderPath: string;
-  lambdaCodePath: string;
   rawBucketFolderPath: string;
 }
 
@@ -26,10 +25,10 @@ export class IamEventLambdaStack extends Stack {
     for (const projectName in projectConfig) {
       const config = projectConfig[projectName];
 
-      // Import the buckets
-      const inboundBucket = s3.Bucket.fromBucketName(this, `${projectName}-InboundBucket`, 'InboundBucket');
-      const rawBucket = s3.Bucket.fromBucketName(this, `${projectName}-RawBucket`, 'RawBucket');
-      const scriptsBucket = s3.Bucket.fromBucketName(this, `${projectName}-ScriptsBucket`, 'ScriptsBucket');
+      // Define hardcoded bucket names
+      const inboundBucket = s3.Bucket.fromBucketName(this, `${projectName}-InboundBucket`, 'cdkdemo-ram-datalake-inbound');
+      const rawBucket = s3.Bucket.fromBucketName(this, `${projectName}-RawBucket`, 'cdkdemo-ram-datalake-raw');
+      const scriptsBucket = s3.Bucket.fromBucketName(this, `${projectName}-ScriptsBucket`, 'cdk-demo-scripts');
 
       // IAM User creation
       const iamUser = new iam.User(this, `${config.iamUserName}`, {
@@ -53,43 +52,43 @@ export class IamEventLambdaStack extends Stack {
         runtime: lambda.Runtime.PYTHON_3_9,
         handler: 'index.lambda_handler',
         code: lambda.Code.fromInline(`
-      import boto3
-      import os
-      import urllib.parse
-      
-      s3_client = boto3.client('s3')
-      
-      def lambda_handler(event, context):
-          try:
-              # Extract bucket name and object key from the S3 event
-              source_bucket = event['Records'][0]['s3']['bucket']['name']
-              source_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
-      
-              # Extract folder path from environment variables
-              inbound_folder_path = os.environ['INBOUND_FOLDER_PATH']
-              raw_bucket_name = os.environ['RAW_BUCKET_NAME']
-              raw_folder_path = os.environ['RAW_FOLDER_PATH']
-      
-              # Skip if the object is not in the inbound folder
-              if not source_key.startswith(inbound_folder_path):
-                  print(f"Object {source_key} is outside the designated folder.")
-                  return
-      
-              # Define the destination key by transforming the path to the raw folder
-              object_name = source_key[len(inbound_folder_path):]
-              destination_key = f"{raw_folder_path}{object_name}"
-      
-              # Copy object from Inbound to Raw bucket
-              s3_client.copy_object(
-                  CopySource={'Bucket': source_bucket, 'Key': source_key},
-                  Bucket=raw_bucket_name,
-                  Key=destination_key
-              )
-      
-              print(f"Copied {source_key} from {source_bucket} to {destination_key} in {raw_bucket_name}")
-      
-          except Exception as e:
-              print(f"Error processing S3 event: {str(e)}")
+import boto3
+import os
+import urllib.parse
+
+s3_client = boto3.client('s3')
+
+def lambda_handler(event, context):
+    try:
+        # Extract bucket name and object key from the S3 event
+        source_bucket = event['Records'][0]['s3']['bucket']['name']
+        source_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
+
+        # Extract folder path from environment variables
+        inbound_folder_path = os.environ['INBOUND_FOLDER_PATH']
+        raw_bucket_name = os.environ['RAW_BUCKET_NAME']
+        raw_folder_path = os.environ['RAW_FOLDER_PATH']
+
+        # Skip if the object is not in the inbound folder
+        if not source_key.startswith(inbound_folder_path):
+            print(f"Object {source_key} is outside the designated folder.")
+            return
+
+        # Define the destination key by transforming the path to the raw folder
+        object_name = source_key[len(inbound_folder_path):]
+        destination_key = f"{raw_folder_path}{object_name}"
+
+        # Copy object from Inbound to Raw bucket
+        s3_client.copy_object(
+            CopySource={'Bucket': source_bucket, 'Key': source_key},
+            Bucket=raw_bucket_name,
+            Key=destination_key
+        )
+
+        print(f"Copied {source_key} from {source_bucket} to {destination_key} in {raw_bucket_name}")
+
+    except Exception as e:
+        print(f"Error processing S3 event: {str(e)}")
         `),
         environment: {
           INBOUND_FOLDER_PATH: config.inboundFolderPath,
@@ -97,7 +96,6 @@ export class IamEventLambdaStack extends Stack {
           RAW_FOLDER_PATH: config.rawBucketFolderPath,
         },
       });
-      
 
       // S3 Event Notification for Inbound Folder
       inboundBucket.addEventNotification(
