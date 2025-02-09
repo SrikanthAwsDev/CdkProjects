@@ -14,19 +14,19 @@ export class S3InfraStack extends Stack {
     // Create the Inbound Bucket
     this.inboundBucket = new s3.Bucket(this, 'InboundBucket', {
       versioned: true,
-      bucketName: 'cdkdemo-ram-datalake-inbound'
+      bucketName: 'cdkdemo-ram-datalake-inbound1'
     });
 
     // Create the Raw Bucket
     this.rawBucket = new s3.Bucket(this, 'RawBucket', {
       versioned: true,
-      bucketName: 'cdkdemo-ram-datalake-raw'
+      bucketName: 'cdkdemo-ram-datalake-raw1'
     });
 
     // Create the Scripts Bucket
     this.scriptsBucket = new s3.Bucket(this, 'ScriptsBucket', {
       versioned: true,
-      bucketName: 'cdk-demo-scripts'
+      bucketName: 'cdk-demo-scripts1'
     });
 
     new cdk.CfnOutput(this, 'InboundBucketName', {
