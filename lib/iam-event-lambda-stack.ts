@@ -26,9 +26,9 @@ export class IamEventLambdaStack extends Stack {
       const config = projectConfig[projectName];
 
       // Define hardcoded bucket names
-      const inboundBucket = s3.Bucket.fromBucketName(this, `${projectName}-InboundBucket`, 'cdkdemo-ram-datalake-inbound');
-      const rawBucket = s3.Bucket.fromBucketName(this, `${projectName}-RawBucket`, 'cdkdemo-ram-datalake-raw');
-      const scriptsBucket = s3.Bucket.fromBucketName(this, `${projectName}-ScriptsBucket`, 'cdk-demo-scripts');
+      const inboundBucket = s3.Bucket.fromBucketName(this, `${projectName}-InboundBucket`, 'cdkdemo-ram-datalake-inbound1');
+      const rawBucket = s3.Bucket.fromBucketName(this, `${projectName}-RawBucket`, 'cdkdemo-ram-datalake-raw1');
+      const scriptsBucket = s3.Bucket.fromBucketName(this, `${projectName}-ScriptsBucket`, 'cdk-demo-scripts1');
 
       // IAM User creation
       const iamUser = new iam.User(this, `${config.iamUserName}`, {
