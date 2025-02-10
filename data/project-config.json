@@ -1,21 +1,9 @@
 {
-    "ProjectA": {
-      "iamUserName": "Watermelon",
-      "inboundFolderPath": "Watermelon/",
+    "ProjectD": {
+      "iamUserName": "Hotwheels",
+      "inboundFolderPath": "Hotwheels/",
       "lambdaCodePath": "scripts/lambda-handler.py",
-      "rawBucketFolderPath": "Watermelon/"
-    },
-        "ProjectB": {
-      "iamUserName": "Demo",
-      "inboundFolderPath": "Demo/",
-      "lambdaCodePath": "scripts/lambda-handler.py",
-      "rawBucketFolderPath": "Demo/"
-    },
-    "ProjectC": {
-      "iamUserName": "Demo2",
-      "inboundFolderPath": "Demo2/",
-      "lambdaCodePath": "scripts/lambda-handler.py",
-      "rawBucketFolderPath": "Demo2/"
-    }
+      "rawBucketFolderPath": "Hotwheels/"
+}
 }
   
