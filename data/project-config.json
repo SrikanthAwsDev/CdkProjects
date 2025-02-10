@@ -4,6 +4,12 @@
       "inboundFolderPath": "Watermelon/",
       "lambdaCodePath": "scripts/lambda-handler.py",
       "rawBucketFolderPath": "Watermelon/"
+    },
+        "ProjectB": {
+      "iamUserName": "Demo",
+      "inboundFolderPath": "Demo/",
+      "lambdaCodePath": "scripts/lambda-handler.py",
+      "rawBucketFolderPath": "Demo/"
     }
 }
   
